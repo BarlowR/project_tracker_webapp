@@ -1,0 +1,32 @@
+{
+    "project1": {
+        "checkpoints": [
+            {"name" : "Placeholder Name 1", 
+            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+            "num" : 1, 
+            "date" : "Nov 12th"},
+
+            {"name" : "Placeholder Name 2", 
+            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+            "num" : 2, 
+            "date" : "Nov 12th"},
+            
+            {"name" : "Placeholder Name 3", 
+            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+            "num" : 3, 
+            "date" : "Nov 12th"},
+            
+            {"name" : "Placeholder Name 5", 
+            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+            "num" : 5, 
+            "date" : "Nov 12th"},
+            
+            {"name" : "Placeholder Name 4", 
+            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+            "num" : 4, 
+            "date" : "Nov 12th"}
+        ],
+        "current_position": 3
+    }
+
+}

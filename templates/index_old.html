@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <title>Datastore and Firebase Auth Example</title>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div id = 'projectbody'>
+
+  <h1>ToDos</h1>
+
+  {% for project in times %}
+
+    <h2> {{ project }} </h2>
+
+
+
+    {%for item in times[project]["checkpoints"] %}
+
+        <div class = 'checkpoint'>
+
+        {% if item == times[project]["current_position"] %} <b> {{ item }} </b>
+
+        {% else %} {{ item }}
+
+        {% endif %}
+
+        </div>
+
+    {% endfor %}   
+    
+  {% endfor %}
+
+</div>
+
+</body>
+</html>
