@@ -34,6 +34,7 @@ CORS(app)
 SCOPES = ['https://www.googleapis.com/auth/drive.appdata', 'https://www.googleapis.com/auth/drive.file']
 
 config_filename = "time.json"
+template_filename = "template.json"
 
 creds = None
 
@@ -51,44 +52,42 @@ def root():
 
 
 @app.route('/get_config')
-def script():
+def get_config():
 
-    if not os.path.isfile(config_filename):
+    #build the google drive service
+    build_service()
 
-        #build the google drive service
-        build_service()
+    #pull a list of files
+    response = service.files().list(spaces='appDataFolder',
+                                      fields='nextPageToken, files(id, name)',
+                                      pageSize=10).execute()
 
-        #pull a list of files
-        response = service.files().list(spaces='appDataFolder',
-                                          fields='nextPageToken, files(id, name)',
-                                          pageSize=10).execute()
+    found = False
+    print("searching...")
 
-        found = False
-        print("searching...")
-
-        #iterate through the files, download the config file and save it locally
-        for file in response.get('files', []):
-            # Process change
-            file_name = file.get('name')
-            file_id = file.get('id')
-            print ('Found file: %s (%s)' % (file_name, file_id))
+    #iterate through the files, download the config file and save it locally
+    for file in response.get('files', []):
+        # Process change
+        file_name = file.get('name')
+        file_id = file.get('id')
+        print ('Found file: %s (%s)' % (file_name, file_id))
+        
+        if file.get('name') == config_filename:
             
-            if file.get('name') == config_filename:
-                
-                request = service.files().get_media(fileId=file_id)
-                fh = io.BytesIO()
-                downloader = MediaIoBaseDownload(fh, request)
-                done = False
-                while done is False:
-                    status, done = downloader.next_chunk()
-                    print ("Download %d%%." % int(status.progress() * 100))
+            request = service.files().get_media(fileId=file_id)
+            fh = io.BytesIO()
+            downloader = MediaIoBaseDownload(fh, request)
+            done = False
+            while done is False:
+                status, done = downloader.next_chunk()
+                print ("Download %d%%." % int(status.progress() * 100))
 
-                fh.seek(0)
-                with open(os.path.join('./', file_name), 'wb') as f:
-                    f.write(fh.read())
-                    f.close()
-                found = True
-                break
+            fh.seek(0)
+            with open(os.path.join('./', file_name), 'wb') as f:
+                f.write(fh.read())
+                f.close()
+            found = True
+            break
 
     #open the local config file and load it into memory
     page_data = {}
@@ -98,7 +97,29 @@ def script():
             #print(page_data)
     
     except:
-        print("error")
+        print("error getting config json")
+
+
+    return page_data
+
+
+# ONLY FOR USE IN DEVELOPMENT
+
+@app.route('/get_template')
+def get_template():
+
+
+    page_data = {}
+
+    if os.path.isfile(template_filename):
+    
+        #open the local template file and load it into memory
+        try:
+            with open(template_filename, "r+") as template_json:
+                page_data = json.load(template_json)
+        
+        except:
+            print("error getting template json")
 
 
     return page_data
@@ -118,7 +139,7 @@ def save_config():
 
         #get the updated information from the frontend
         page_data = request.json
-        #print(content)
+
 
         #write the new info to our local file
         try:
@@ -157,12 +178,13 @@ def save_config():
                                                   body = file_metadata,
                                                   media_body = file_json).execute()
                     print(config_filename + " updated successfully")
-                    exists = True
-                    break
+                    exists = True;
+                    break;
         
         #if we don't find the config file, create a config file in the appdata folder
         if not exists:
-            file_metadata['parents'] = 'appDataFolder'
+            file_metadata['parents'] = ['appDataFolder']
+            print(file_metadata)
             file_json = MediaFileUpload(config_filename, mimetype = 'application/json')
             file = service.files().create(body = file_metadata,
                                           media_body = file_json, 
@@ -205,10 +227,6 @@ def reset_config():
                 print("Deleted file:" + file_name)
 
     return redirect('../')
-
-
-
-
 
 
 

@@ -1,32 +1,77 @@
 {
-    "project1": {
-        "checkpoints": [
-            {"name" : "Placeholder Name 1", 
-            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
-            "num" : 1, 
-            "date" : "Nov 12th"},
+    "project1":[
+        {"name" : "Placeholder Name 1", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 1, 
+        "date" : "Nov 12th", 
+        "finished" : 1},
 
-            {"name" : "Placeholder Name 2", 
-            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
-            "num" : 2, 
-            "date" : "Nov 12th"},
-            
-            {"name" : "Placeholder Name 3", 
-            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
-            "num" : 3, 
-            "date" : "Nov 12th"},
-            
-            {"name" : "Placeholder Name 5", 
-            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
-            "num" : 5, 
-            "date" : "Nov 12th"},
-            
-            {"name" : "Placeholder Name 4", 
-            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
-            "num" : 4, 
-            "date" : "Nov 12th"}
-        ],
-        "current_position": 3
-    }
+        {"name" : "Placeholder Name 2", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 2, 
+        "date" : "Nov 12th", 
+        "finished" : 1},
 
+        {"name" : "Placeholder Name 3", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 3, 
+        "date" : "Nov 12th", 
+        "finished" : 1},
+
+        {"name" : "Placeholder Name 4", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 4, 
+        "date" : "Nov 12th", 
+        "finished" : 1},
+
+        {"name" : "Placeholder Name 5", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 5, 
+        "date" : "Nov 12th", 
+        "finished" : 1},
+
+        {"name" : "Placeholder Name 6", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 6, 
+        "date" : "Nov 12th", 
+        "finished" : 0}
+    ],
+
+    "project2": [        
+        {"name" : "Placeholder Name 1", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 1, 
+        "date" : "Nov 12th", 
+        "finished" : 1},
+
+        {"name" : "Placeholder Name 2", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 2, 
+        "date" : "Nov 12th", 
+        "finished" : 1},
+
+        {"name" : "Placeholder Name 3", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 3, 
+        "date" : "Nov 12th", 
+        "finished" : 0},
+
+        {"name" : "Placeholder Name 4", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 4, 
+        "date" : "Nov 12th", 
+        "finished" : 1},
+
+        {"name" : "Placeholder Name 5", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 5, 
+        "date" : "Nov 12th", 
+        "finished" : 0},
+
+        {"name" : "Placeholder Name 6", 
+        "desc" : "askdlaskjdljasdja;sd\njaskldjas",
+        "num" : 6, 
+        "date" : "Nov 12th", 
+        "finished" : 0}
+    ]
 }

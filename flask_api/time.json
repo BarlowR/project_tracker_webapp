@@ -1,32 +1,90 @@
 {
-    "project1": {
-        "checkpoints": [
-            {"name" : "Placeholder Name 1", 
-            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
-            "num" : 1, 
-            "date" : "Nov 12th"},
-
-            {"name" : "Placeholder Name 2", 
-            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
-            "num" : 2, 
-            "date" : "Nov 12th"},
-            
-            {"name" : "Placeholder Name 3", 
-            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
-            "num" : 3, 
-            "date" : "Nov 12th"},
-            
-            {"name" : "Placeholder Name 5", 
-            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
-            "num" : 5, 
-            "date" : "Nov 12th"},
-            
-            {"name" : "Placeholder Name 4", 
-            "desc" : "askdlaskjdljasdja;sd\njaskldjas",
-            "num" : 4, 
-            "date" : "Nov 12th"}
-        ],
-        "current_position": 3
-    }
-
+    "project1": [
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": 1,
+            "name": "Placeholder Name 1",
+            "num": 1
+        },
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": false,
+            "name": "Placeholder Name 2",
+            "num": 2
+        },
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": 1,
+            "name": "Placeholder Name 3",
+            "num": 3
+        },
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": false,
+            "name": "Placeholder Name 4",
+            "num": 4
+        },
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": 1,
+            "name": "Placeholder Name 5",
+            "num": 5
+        },
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": true,
+            "name": "Placeholder Name 6",
+            "num": 6
+        }
+    ],
+    "project2": [
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": 1,
+            "name": "Placeholder Name 1",
+            "num": 1
+        },
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": false,
+            "name": "Placeholder Name 2",
+            "num": 2
+        },
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": 0,
+            "name": "Placeholder Name 3",
+            "num": 3
+        },
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": true,
+            "name": "Placeholder Name 4",
+            "num": 4
+        },
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": true,
+            "name": "Placeholder Name 5",
+            "num": 5
+        },
+        {
+            "date": "Nov 12th",
+            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "finished": false,
+            "name": "Placeholder Name 6",
+            "num": 6
+        }
+    ]
 }

@@ -7,7 +7,36 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+.project_element{
+    width: 100%;
 }
+
+.project_title{
+   text-align: center;
+}
+
+.checkpoint_timeline{
+    margin: auto;
+    width: 80%;
+    height: 20vw;
+}
+
+.checkpoint{
+    /*transform: rotate(-90deg);*/
+    text-align: center;
+
+    width : 99%;
+    height: 10vw;
+}
+
+.checkpoint.finished{
+    background-color: red;
+}
+
+.checkpoint.active{
+    /*transform: rotate(-90deg);
+    font-size: 10vw;*/
+}
+
+.checkpoint .name{}
