@@ -3,7 +3,7 @@
         {
             "date": "Nov 12th",
             "desc": "askdlaskjdljasdja;sd\njaskldjas",
-            "finished": 1,
+            "finished": false,
             "name": "Placeholder Name 1",
             "num": 1
         },
@@ -31,7 +31,7 @@
         {
             "date": "Nov 12th",
             "desc": "askdlaskjdljasdja;sd\njaskldjas",
-            "finished": 1,
+            "finished": true,
             "name": "Placeholder Name 5",
             "num": 5
         },
@@ -87,4 +87,4 @@
             "num": 6
         }
     ]
-}
+}}

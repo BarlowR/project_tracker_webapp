@@ -5,10 +5,11 @@
   * ~~Create JSON config file loading and saving endpoints~~
 * Frontend (React):
   * Build project line elements
-    * Basic Struture
-    * Add/Delete Checkpoints
+    * Basic Structure
+    * Add/Delete checkpoints
+    * Editable checkpoints
     * Handle Finished Projects
-    * Dynamic Interaction
-  * Add/Delete projects functionality
+    * 
+  * Add/Delete projects
   * Different timeline checkpoint types (dates, videos, websites, etc.)
   * Non-linear project types? (project branches/merges?)

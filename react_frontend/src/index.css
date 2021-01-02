@@ -9,25 +9,26 @@ body {
 
 
 .project_element{
+    text-align: center;
+
     width: 100%;
 }
 
 .project_title{
-   text-align: center;
+   font-family: 'Roboto';
+   font-size: 5vh;
 }
 
 .checkpoint_timeline{
     margin: auto;
     width: 80%;
-    height: 20vw;
+    height: 20vh;
 }
 
 .checkpoint{
     /*transform: rotate(-90deg);*/
     text-align: center;
-
     width : 99%;
-    height: 10vw;
 }
 
 .checkpoint.finished{
@@ -39,4 +40,12 @@ body {
     font-size: 10vw;*/
 }
 
-.checkpoint .name{}
+.checkpoint .name{
+
+}
+
+.remove_project {
+
+    width: 10%;
+
+}
