@@ -54,6 +54,8 @@ def root():
 @app.route('/get_config')
 def get_config():
 
+    print("get_config requested")
+
     #build the google drive service
     build_service()
 
@@ -131,6 +133,7 @@ def get_template():
 @app.route("/save_config", methods=['POST'])
 
 def save_config():
+    print("save_config requested")
 
     if request.method == 'POST':
 
@@ -143,8 +146,9 @@ def save_config():
 
         #write the new info to our local file
         try:
-            with open(config_filename, "r+") as config:
+            with open(config_filename, "a+") as config:
                 config.seek(0)
+                config.truncate(0)
                 config.write(json.dumps(page_data, sort_keys=True, indent=4))
         except:
             print("Error writing to local file")
@@ -190,6 +194,7 @@ def save_config():
                                           media_body = file_json, 
                                           fields='id').execute()
             print("Created " + config_filename + ", " + file.get('id'))
+            exists = True;
 
         return str(exists)
 
