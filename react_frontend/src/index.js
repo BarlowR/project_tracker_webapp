@@ -14,6 +14,7 @@ class Projects extends React.Component {
         this.old_state = {};
         this.waiting_for_save = false;
         this.updates_to_data = false;
+        this.fetching_config = true;
     }
 
 
@@ -22,10 +23,10 @@ class Projects extends React.Component {
         //fetch("./get_template")
         .then(res => res.json())
         .then(json_data => {
+            this.fetching_config = false;
             this.setState({...this.state, data: json_data});
             this.saveConfigTimer()
             console.log("mounted");
-            
             return ("done");
         });
     }
@@ -50,7 +51,7 @@ class Projects extends React.Component {
                 body: JSON.stringify(data)})
             .then(res => res.text())
             .then(completed => {
-                if (completed == "True"){
+                if (completed === "True"){
                     console.log("successfully saved to GDrive");
                 }
                 else {
@@ -98,13 +99,7 @@ class Projects extends React.Component {
         // add project      TODO: form entry
         if (operation === "add"){
             let config = this.state.data;
-            config[project] = [{
-            "date": "N/A",
-            "desc" : "placeholder",
-            "finished": false,
-            "name": "newProjCkpt",
-            "num": 1
-            }];
+            config[project] = [];
             this.setStateSave(config);
             return true;
         }
@@ -154,8 +149,7 @@ class Projects extends React.Component {
         }
 
         config[project] = checkpoints;
-        console.log(config)
-        console.log(this.setStateSave(config));
+        this.setStateSave(config);
         
     }
 
@@ -166,22 +160,39 @@ class Projects extends React.Component {
         for (const [p_name, p_data] of Object.entries(this.state.data)){
             projects.push([p_name, p_data])
         }
+        let project_elements = [];
 
-        const project_elements = projects.map((p, i) =>
-          <Project 
-          project_name = {p[0]} 
-          project_data = {p[1]} 
-          key = {i} 
-          setFinished = {(proj, num) => this.setFinished(proj, num)}
-          alterProject = {(project, operation) => this.alterProject(project, operation)}
-          alterCheckpoint = {(project, checkpoint_num, operation) => this.alterCheckpoint(project, checkpoint_num, operation)}
-          />
-          );
+        if (projects.length > 0){
+            project_elements = projects.map((p, i) =>
+              <Project 
+              project_name = {p[0]} 
+              project_data = {p[1]} 
+              key = {i} 
+              setFinished = {(proj, num) => this.setFinished(proj, num)}
+              alterProject = {(project, operation) => this.alterProject(project, operation)}
+              alterCheckpoint = {(project, checkpoint_num, operation) => this.alterCheckpoint(project, checkpoint_num, operation)}
+              />
+              );
+        }
+
+        console.log(this.fetching_config);
+        if (this.fetching_config){
+            project_elements.push(
+                <div className = "loading"> Loading ... </div>
+                )
+        }
+        else {
+            project_elements.push(
+                <button 
+                className = "add_project"
+                onClick = {() => this.alterProject("new Project", "add")}>
+                    Add Project
+                </button>
+            )
+        }
 
 
-        return (
-          project_elements
-          )
+        return (project_elements)
     }
 }
 
@@ -219,22 +230,39 @@ class Project extends React.Component {
     render(){
 
         let checkpoints = this.props.project_data;
-        checkpoints.sort((a,b) => (a.num > b.num) ? 1 : -1);
+        let checkpoint_elements =[];
+        
 
-        const checkpoint_elements = checkpoints.map((d, i) =>
-          <Checkpoint 
-              data = {d} 
-              active = {this.state.active} 
-              checkpoint_num = {checkpoints.length}
-              key = {i*2} 
-              setActive={() => this.setActive(d.num)}
-              setFinished = {() => this.props.setFinished(this.props.project_name, d.num)}
-              Remove = {() => this.props.alterCheckpoint(this.props.project_name, d.num, "delete")}
-              Add = {(lr) => lr ? 
-                this.props.alterCheckpoint(this.props.project_name, d.num, "add right") :
-                this.props.alterCheckpoint(this.props.project_name, d.num, "add left")}
-          />
-          );
+        if (checkpoints.length > 0){
+            checkpoints.sort((a,b) => (a.num > b.num) ? 1 : -1);
+
+            checkpoint_elements = checkpoints.map((d, i) =>
+                <Checkpoint 
+                  data = {d} 
+                  active = {this.state.active} 
+                  checkpoint_num = {checkpoints.length}
+                  key = {i*2} 
+                  setActive={() => this.setActive(d.num)}
+                  setFinished = {() => this.props.setFinished(this.props.project_name, d.num)}
+                  Remove = {() => this.props.alterCheckpoint(this.props.project_name, d.num, "delete")}
+                  Add = {(lr) => lr ? 
+                    this.props.alterCheckpoint(this.props.project_name, d.num, "add right") :
+                    this.props.alterCheckpoint(this.props.project_name, d.num, "add left")}
+                />
+                );
+        }
+        else {
+            checkpoint_elements = 
+                <button 
+                className = "add_checkpoint"
+                onClick = {() => this.props.alterCheckpoint(this.props.project_name, 0, "add left")}>
+                    Add Checkpoint
+                </button>
+        }
+
+        
+
+
 
         return (
             <div className = "project_element">

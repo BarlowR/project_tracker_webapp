@@ -1,46 +1,53 @@
 {
-    "project2": [
+    "new Project": [
         {
-            "date": "Nov 12th",
-            "desc": "askdlaskjdljasdja;sd\njaskldjas",
-            "finished": 1,
-            "name": "Placeholder Name 1",
+            "date": "N/A",
+            "desc": "placeholder 0",
+            "finished": true,
+            "name": "newProjCkpt",
+            "num": 0
+        },
+        {
+            "date": "N/A",
+            "desc": "placeholder 1",
+            "finished": true,
+            "name": "newProjCkpt",
             "num": 1
         },
         {
-            "date": "Nov 12th",
-            "desc": "askdlaskjdljasdja;sd\njaskldjas",
+            "date": "N/A",
+            "desc": "placeholder 2",
             "finished": false,
-            "name": "Placeholder Name 2",
+            "name": "newProjCkpt",
             "num": 2
         },
         {
-            "date": "Nov 12th",
-            "desc": "askdlaskjdljasdja;sd\njaskldjas",
-            "finished": 1,
-            "name": "Placeholder Name 4",
+            "date": "N/A",
+            "desc": "placeholder 0",
+            "finished": false,
+            "name": "newProjCkpt",
+            "num": 3
+        },
+        {
+            "date": "N/A",
+            "desc": "placeholder 4",
+            "finished": false,
+            "name": "newProjCkpt",
             "num": 4
         },
         {
-            "date": "Nov 12th",
-            "desc": "askdlaskjdljasdja;sd\njaskldjas",
-            "finished": 0,
-            "name": "Placeholder Name 5",
+            "date": "N/A",
+            "desc": "placeholder 5",
+            "finished": false,
+            "name": "newProjCkpt",
             "num": 5
-        },
-        {
-            "date": "Nov 12th",
-            "desc": "askdlaskjdljasdja;sd\njaskldjas",
-            "finished": true,
-            "name": "Placeholder Name 6",
-            "num": 6
         },
         {
             "date": "N/A",
             "desc": "placeholder",
             "finished": false,
             "name": "newProjCkpt",
-            "num": 7
+            "num": 6
         }
     ]
 }
