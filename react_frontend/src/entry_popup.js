@@ -2,6 +2,7 @@ import React from "react";
 import "./popup.css"
 
 class Popup extends React.Component {
+    //popup class
     constructor(props) {
         super(props);
     }
@@ -29,12 +30,19 @@ class Popup extends React.Component {
 }
 
 export class ProjectAdd extends Popup {
+    /* ProjectAdd component for Project Tracker webapp. Displays a Project Title entry form. 
+    requires the following as passed props:
+    alterProject = {(proj, op) => }
+    projectPopup = {(show) =>  }
+    */
+
     constructor(props) {
         super(props);
         this.state = {project_title: ""};
     }
 
     save(){
+        //if there's text in the title box, make a new project with the given title and close the popup
         if (this.state.project_title){
             this.props.alterProject(this.state.project_title, "add");
             this.setState({
@@ -49,6 +57,7 @@ export class ProjectAdd extends Popup {
     }
 
     discard(){
+        // close the popup
         this.setState({
           project_title: ""
         });
@@ -84,6 +93,13 @@ export class ProjectAdd extends Popup {
 
 export class CheckpointAdd extends Popup {
 
+    /* CheckpointAdd component for Project Tracker webapp. Displays a Checkpoint entry form. 
+    requires the following as passed props:
+    newCheckpoint = {(proj, op) => }
+    checkpointPopup = {(show) => }
+    */
+
+
     constructor(props) {
         super(props);
         this.state = {
@@ -93,6 +109,7 @@ export class CheckpointAdd extends Popup {
     }
 
     save(){
+        //if there's text in the title box, make a new checkpoint with the given title and details and close the popup
         if (this.state.checkpoint_title){
             this.props.newCheckpoint(this.state.checkpoint_title, this.state.checkpoint_details)
             this.setState({
@@ -107,6 +124,7 @@ export class CheckpointAdd extends Popup {
     }
 
     discard(){
+        // close the popup
         this.setState({
             checkpoint_title: "",
             checkpoint_details: ""

@@ -1,49 +1,58 @@
 import ReactDOM from 'react-dom';
 import './index.css';
 import {ProjectAdd, CheckpointAdd } from "./entry_popup.js";
-
 import reportWebVitals from './reportWebVitals';
 import React from 'react';
 
 
 
 class Projects extends React.Component {
+    //top level element for the webapp
     constructor(props) {
         super(props);
         this.state = {
             data : {},
             project_popup: false,
-            checkpoint_popup: true
+            checkpoint_popup: false
         };
-        this.old_state = {};
+
+        //API call variables
         this.waiting_for_save = false;
         this.updates_to_data = false;
         this.fetching_config = true;
 
+        //temp storage for checkpoint add handling
         this.checkpoint_temp = {proj:"", pos:0, operation : ""} //position
     }
 
 
     componentDidMount(){
+        //once the element is loaded, fetch the config file from the api server
         fetch("./get_config")
         //fetch("./get_template")
         .then(res => res.json())
         .then(json_data => {
+            //once we have the config file loaded in, set our state to use the fetched data and start the save timer
             this.fetching_config = false;
             this.setState({...this.state, data: json_data});
             this.saveConfigTimer()
-            console.log("mounted");
-            return ("done");
+            return null;
         });
     }
 
     setStateSave(data){
+        //call this instead of setState when we need to save the state to the google drive file
         this.updates_to_data = true;
         this.setState(data)
     }
 
+    saveConfigTimer(){
+        //start a timer that calls the saveConfigToServer method every 5 seconds
+        setInterval(() => this.saveConfigToServer(this.state.data), 5000);   
+    }
+
     saveConfigToServer(data){
-        //console.log(this.updates_to_data)
+        //if we haven't already started a /save_config POST and we have new updates to the page config, make a /save_config POST       
         
         if (!this.waiting_for_save && this.updates_to_data){
             this.waiting_for_save = true;
@@ -70,29 +79,24 @@ class Projects extends React.Component {
         }
     }
 
-    saveConfigTimer(){
-        setInterval(() => this.saveConfigToServer(this.state.data), 5000);   
-    }
+    
 
 
     setFinished(project, checkpoint_num){
-        console.log("setFinished called with " + project + " on checkpoint num " + checkpoint_num);
+        // toggle the state of a checkpoint between finished and not finished
         for (let i = 0; i < this.state.data[project].length; i++){
 
             if (this.state.data[project][i].num === checkpoint_num){
-
-                let config = this.state.data
-
-                config[project][i].finished = !config[project][i].finished
+                let config = this.state.data;
+                config[project][i].finished = !config[project][i].finished;
                 this.setStateSave(config);
-                              
                 break;
             }
         }
     }
 
     alterProject(project = "none", operation){
-        console.log("alterProject called with " + operation + " on " + project);
+        //apply the given operation to the given project 
 
         //remove project
         if (operation === "delete" && project !== "none"){
@@ -102,7 +106,7 @@ class Projects extends React.Component {
             return true;
         }
 
-        // add project      TODO: form entry
+        // add project
         if (operation === "add"){
             let config = this.state.data;
             config[project] = [];
@@ -112,6 +116,7 @@ class Projects extends React.Component {
     }
 
     alterCheckpoint(project, checkpoint_num, operation, title = null, details = null){
+        //apply the given operation to the given checkpoint_num within the given project
 
         let config = this.state.data
         let checkpoints = config[project];
@@ -132,7 +137,7 @@ class Projects extends React.Component {
             }
             checkpoints.push(new_checkpoint)
         }
-        //shift all checkpoint nums above current checkpoint up one and add new checkpoint above current checkpoint
+        //shift all checkpoint nums below and including current checkpoint down one and add new checkpoint in place of current checkpoint
         if (operation === "add right"){
             for (let i = 0; i < checkpoints.length; i++){
                 if (checkpoints[i].num <= checkpoint_num){
@@ -141,6 +146,7 @@ class Projects extends React.Component {
             }
             checkpoints.push(new_checkpoint)
         }
+        //delete the checkpoint
         if (operation === "delete"){
             for (let i = 0; i < checkpoints.length; i++){
                 if (checkpoints[i].num === checkpoint_num){
@@ -154,6 +160,9 @@ class Projects extends React.Component {
     }
 
     tempCheckpointDetails(project, checkpoint_num, operation){
+        //initiate the creation of a new checkpoint with the given project, number and operation (add left or arr right). 
+        //the checkpoint popup will be displayed, but the creation of the new checkpoint won't go through if the user cancels the popup.
+        //the project/number/operation are cached so that they don't need to be passed to the checkpoint popup.
         this.checkpoint_temp.proj = project;
         this.checkpoint_temp.pos = checkpoint_num;
         this.checkpoint_temp.operation = operation;
@@ -161,10 +170,13 @@ class Projects extends React.Component {
     }
 
     newCheckpoint(title, details){
+        //create a new checkpoint using the given title and details, and the cached project, number and operation. 
+        //this is passed down to the checkpoint popup
         this.alterCheckpoint(this.checkpoint_temp.proj, this.checkpoint_temp.pos, this.checkpoint_temp.operation, title, details)
     }
 
     projectPopup(show){
+        //function to show or hide the project popup
         if (show){
             this.setState({project_popup: true})
         }
@@ -174,6 +186,7 @@ class Projects extends React.Component {
     }
 
     checkpointPopup(show){
+        //function to show or hide the checkpoint popup
         if (show){
             this.setState({checkpoint_popup: true})
         }
@@ -184,13 +197,15 @@ class Projects extends React.Component {
 
 
     render(){
-        let projects = [];
 
+        //iterate through the entries of projects in the component's state and save the keys and values as elements in a new array
+        let projects = [];
         for (const [p_name, p_data] of Object.entries(this.state.data)){
             projects.push([p_name, p_data])
         }
-        let project_elements = [];
 
+        //map the project component onto the previously defined array
+        let project_elements = [];
         if (projects.length > 0){
             project_elements = projects.map((p, i) =>
               <Project 
@@ -205,7 +220,8 @@ class Projects extends React.Component {
               );
         }
 
-        console.log(this.fetching_config);
+        //display either "loading" or an add project button based on whether we've loaded the config file yet.
+        //if we're still getting the config file from the drive service, we don't want users adding projects.
         if (this.fetching_config){
             project_elements.push(
                 <div className = "loading"> Loading ... </div>
@@ -221,6 +237,7 @@ class Projects extends React.Component {
             )
         }
 
+        //include the add project popup based on the state variable
         if (this.state.project_popup){
             project_elements.push(
                 <ProjectAdd 
@@ -230,6 +247,7 @@ class Projects extends React.Component {
             );
         }
 
+        //include the add checkpoint popup based on the state variable
         if (this.state.checkpoint_popup){
             project_elements.push(
                 <CheckpointAdd 
@@ -239,6 +257,7 @@ class Projects extends React.Component {
             );
         }
 
+        //return the list of elements to be rendered
         return (project_elements)
     }
 }
@@ -250,6 +269,16 @@ class Projects extends React.Component {
 
 
 class Project extends React.Component {
+    /*an individual project component. requires the following as passed props:
+    project_name
+    project_data
+    key
+    setFinished = {(proj, num) =>  }
+    alterProject = {(project, operation) =>  }
+    newCheckpoint = {(project, checkpoint_num, operation) =>  }
+    deleteCheckpoint = {(project, checkpoint_num) =>   }
+    */
+
     constructor(props) {
         super(props);
 
@@ -262,24 +291,18 @@ class Project extends React.Component {
             }
         } 
         this.state = {active: last_finished}
-        console.log(this.state.active);
-
-    }
-
-    componentDidMount(){
     }
 
     setActive(num){
-        //console.log(num);
+        //set the given checkpoint number as active
         this.setState({active : num});
     }
 
     render(){
 
+        //if our list of checkpoints has any elements, sort the elements by number property and then map the checkpoint component to the sorted array
         let checkpoints = this.props.project_data;
-        let checkpoint_elements =[];
-        
-
+        let checkpoint_elements =[];     
         if (checkpoints.length > 0){
             checkpoints.sort((a,b) => (a.num > b.num) ? 1 : -1);
 
@@ -298,6 +321,7 @@ class Project extends React.Component {
                 />
                 );
         }
+        // otherwise, display an "add checkpoint" button
         else {
             checkpoint_elements = 
                 <button 
@@ -307,10 +331,8 @@ class Project extends React.Component {
                 </button>
         }
 
-        
 
-
-
+        //render the project title, the list of checkpoints and a remove project button
         return (
             <div className = "project_element">
                 <div className = "project_title"> {this.props.project_name} </div>
@@ -329,6 +351,19 @@ class Project extends React.Component {
 
 
 function Checkpoint(props){
+    /*an individual checkpoint component. Display switches bweteen active and finished states.
+    requires the following as passed props:
+    data = {d} 
+    active
+    checkpoint_num 
+    key
+    setActive={() => }
+    setFinished = {() => }
+    Remove = {() => }
+    Add = {(lr) => lr ? __ : __ }
+
+    Note: a finished checkpoint will have a "finished" className in its div element
+    */
     
     let name = props.data.name;
     let details = props.data.dets
@@ -336,6 +371,9 @@ function Checkpoint(props){
     let finished = props.data.finished
     let finished_class = finished ? "finished" : ""
 
+
+    // if currently active property is the same as the checkpoint's number, display the checkpoint with all of 
+    // its details and an add left, delete and add right button
     let display; 
     if (props.active === num){
 
@@ -351,6 +389,7 @@ function Checkpoint(props){
             />
         </div>
     }
+    //otherwise, just display the checkpoint name
     else{
         display =
         <div className = {"checkpoint " + finished_class} onClick={() => props.setActive()}>
@@ -368,6 +407,7 @@ function Checkpoint(props){
 
 
 function RemoveProj(props){
+    // just a remove project button
     return(
         <button 
         className = "remove_project"
@@ -378,6 +418,7 @@ function RemoveProj(props){
 
 
 function PrevDeleteNext(props){
+    // a trio of buttons to add left, remove or add right checkpoints
     return(
         <div className = "prev_delete_next">
         
@@ -411,7 +452,5 @@ ReactDOM.render(
   document.getElementById('root')
   );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+//TODO : report web analytics
+//reportWebVitals();

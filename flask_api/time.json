@@ -1,23 +1,22 @@
 {
-    "Project": [
+    "Nextera Robotics Project": [
         {
-            "dets": "www.youtube.com",
+            "dets": "Jan 5th",
             "finished": true,
-            "name": "Video #4",
-            "num": -2
-        },
-        {
-            "dets": "www.youtube.com",
-            "finished": true,
-            "name": "Video #5",
+            "name": "Interview w/ Rob",
             "num": -1
         },
         {
-            "dets": "youtube.com",
+            "dets": "Interview on Jan 5th",
             "finished": false,
-            "name": "Video #6",
+            "name": "Hire Rob",
             "num": 0
+        },
+        {
+            "dets": "Jan 28th",
+            "finished": false,
+            "name": "Rob Start Work",
+            "num": 1
         }
-    ],
-    "asdfasd": []
+    ]
 }
