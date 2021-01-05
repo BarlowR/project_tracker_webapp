@@ -1,0 +1,48 @@
+
+
+
+.project_element{
+    
+    width: 100%;
+}
+
+.project_title{
+   font-family: 'Roboto';
+   font-size: 5vh;
+}
+
+.checkpoint_timeline{
+    margin: auto;
+    width: 80%;
+    height: 20vh;
+}
+
+.checkpoint{
+    /*transform: rotate(-90deg);*/
+    text-align: center;
+    width : 99%;
+}
+
+.checkpoint.finished{
+    background-color: red;
+}
+
+.checkpoint.active{
+    /*transform: rotate(-90deg);
+    font-size: 10vw;*/
+}
+
+.checkpoint .name{
+
+}
+
+.add_checkpoint{
+  width: 60%;
+  height: 80%;
+}
+
+.remove_project {
+
+    width: 10%;
+
+}

@@ -1,22 +1,17 @@
 {
-    "Nextera Robotics Project": [
+    "Project 2": [
         {
-            "dets": "Jan 5th",
-            "finished": true,
-            "name": "Interview w/ Rob",
-            "num": -1
-        },
-        {
-            "dets": "Interview on Jan 5th",
+            "dets": "",
             "finished": false,
-            "name": "Hire Rob",
+            "name": "Checkpoint Title",
             "num": 0
         },
         {
-            "dets": "Jan 28th",
-            "finished": false,
-            "name": "Rob Start Work",
+            "dets": "aslkdjsad",
+            "finished": true,
+            "name": "Checkpoint Title 2",
             "num": 1
         }
-    ]
+    ],
+    "Project Name": []
 }
