@@ -1,5 +1,7 @@
 import ReactDOM from 'react-dom';
 import './index.css';
+import {ProjectAdd, CheckpointAdd } from "./entry_popup.js";
+
 import reportWebVitals from './reportWebVitals';
 import React from 'react';
 
@@ -9,12 +11,16 @@ class Projects extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            data : {}
+            data : {},
+            project_popup: false,
+            checkpoint_popup: true
         };
         this.old_state = {};
         this.waiting_for_save = false;
         this.updates_to_data = false;
         this.fetching_config = true;
+
+        this.checkpoint_temp = {proj:"", pos:0, operation : ""} //position
     }
 
 
@@ -105,40 +111,35 @@ class Projects extends React.Component {
         }
     }
 
-    alterCheckpoint(project, checkpoint_num, operation){
+    alterCheckpoint(project, checkpoint_num, operation, title = null, details = null){
 
         let config = this.state.data
         let checkpoints = config[project];
+
+        let new_checkpoint = {
+                "name" : title,
+                "dets" : details,
+                "finished": false,
+                "num": (checkpoint_num)
+                };
 
         //shift all nums above and including current checkpoint up one and add new checkpoint in place of passed checkpoint
         if (operation === "add left"){
             for (let i = 0; i < checkpoints.length; i++){
                 if (checkpoints[i].num >= checkpoint_num){
-                    checkpoints[i].num ++;
+                    checkpoints[i].num += 1;
                 }
             }
-            checkpoints.push({
-                "date": "N/A",
-                "desc" : "placeholder " + checkpoint_num,
-                "finished": false,
-                "name": "newProjCkpt",
-                "num": (checkpoint_num)
-                })
+            checkpoints.push(new_checkpoint)
         }
         //shift all checkpoint nums above current checkpoint up one and add new checkpoint above current checkpoint
         if (operation === "add right"){
             for (let i = 0; i < checkpoints.length; i++){
-                if (checkpoints[i].num > checkpoint_num){
-                    checkpoints[i].num ++;
+                if (checkpoints[i].num <= checkpoint_num){
+                    checkpoints[i].num -= 1;
                 }
             }
-            checkpoints.push({
-                "date": "N/A",
-                "desc" : "placeholder",
-                "finished": false,
-                "name": "newProjCkpt",
-                "num": (checkpoint_num + 1)
-                })
+            checkpoints.push(new_checkpoint)
         }
         if (operation === "delete"){
             for (let i = 0; i < checkpoints.length; i++){
@@ -150,7 +151,35 @@ class Projects extends React.Component {
 
         config[project] = checkpoints;
         this.setStateSave(config);
-        
+    }
+
+    tempCheckpointDetails(project, checkpoint_num, operation){
+        this.checkpoint_temp.proj = project;
+        this.checkpoint_temp.pos = checkpoint_num;
+        this.checkpoint_temp.operation = operation;
+        this.setState({checkpoint_popup:true});
+    }
+
+    newCheckpoint(title, details){
+        this.alterCheckpoint(this.checkpoint_temp.proj, this.checkpoint_temp.pos, this.checkpoint_temp.operation, title, details)
+    }
+
+    projectPopup(show){
+        if (show){
+            this.setState({project_popup: true})
+        }
+        else {
+            this.setState({project_popup: false})
+        }
+    }
+
+    checkpointPopup(show){
+        if (show){
+            this.setState({checkpoint_popup: true})
+        }
+        else {
+            this.setState({checkpoint_popup: false})
+        }
     }
 
 
@@ -170,7 +199,8 @@ class Projects extends React.Component {
               key = {i} 
               setFinished = {(proj, num) => this.setFinished(proj, num)}
               alterProject = {(project, operation) => this.alterProject(project, operation)}
-              alterCheckpoint = {(project, checkpoint_num, operation) => this.alterCheckpoint(project, checkpoint_num, operation)}
+              newCheckpoint = {(project, checkpoint_num, operation) => this.tempCheckpointDetails(project, checkpoint_num, operation)}
+              deleteCheckpoint = {(project, checkpoint_num) => this.alterCheckpoint(project, checkpoint_num, "delete")}
               />
               );
         }
@@ -185,12 +215,29 @@ class Projects extends React.Component {
             project_elements.push(
                 <button 
                 className = "add_project"
-                onClick = {() => this.alterProject("new Project", "add")}>
+                onClick = {() => this.setState({project_popup: true})}>
                     Add Project
                 </button>
             )
         }
 
+        if (this.state.project_popup){
+            project_elements.push(
+                <ProjectAdd 
+                alterProject = {(proj, op) => this.alterProject(proj, op)}
+                projectPopup = {(show) => this.projectPopup(show)}
+                />
+            );
+        }
+
+        if (this.state.checkpoint_popup){
+            project_elements.push(
+                <CheckpointAdd 
+                newCheckpoint = {(proj, op) => this.newCheckpoint(proj, op)}
+                checkpointPopup = {(show) => this.checkpointPopup(show)}
+                />
+            );
+        }
 
         return (project_elements)
     }
@@ -244,10 +291,10 @@ class Project extends React.Component {
                   key = {i*2} 
                   setActive={() => this.setActive(d.num)}
                   setFinished = {() => this.props.setFinished(this.props.project_name, d.num)}
-                  Remove = {() => this.props.alterCheckpoint(this.props.project_name, d.num, "delete")}
+                  Remove = {() => this.props.deleteCheckpoint(this.props.project_name, d.num)}
                   Add = {(lr) => lr ? 
-                    this.props.alterCheckpoint(this.props.project_name, d.num, "add right") :
-                    this.props.alterCheckpoint(this.props.project_name, d.num, "add left")}
+                    this.props.newCheckpoint(this.props.project_name, d.num, "add right") :
+                    this.props.newCheckpoint(this.props.project_name, d.num, "add left")}
                 />
                 );
         }
@@ -255,7 +302,7 @@ class Project extends React.Component {
             checkpoint_elements = 
                 <button 
                 className = "add_checkpoint"
-                onClick = {() => this.props.alterCheckpoint(this.props.project_name, 0, "add left")}>
+                onClick = {() => this.props.newCheckpoint(this.props.project_name, 0, "add left")}>
                     Add Checkpoint
                 </button>
         }
@@ -281,13 +328,10 @@ class Project extends React.Component {
 
 
 
-
-
 function Checkpoint(props){
     
     let name = props.data.name;
-    let description = props.data.desc
-    let date = props.data.date
+    let details = props.data.dets
     let num = props.data.num
     let finished = props.data.finished
     let finished_class = finished ? "finished" : ""
@@ -297,14 +341,14 @@ function Checkpoint(props){
 
         display =
         <div className = {"checkpoint active " +finished_class} onClick={() => props.setActive()}>
-        <div className = "name"> {name} </div>
-        <div className = "description"> {description} </div>
-        <div className = "date"> {num} </div>
-        <button onClick={() => props.setFinished()} > {finished ? "uncheck" : "check"} </button>
-        <PrevDeleteNext 
-            Add = {(lr) => props.Add(lr)}
-            Delete = {() => props.Remove()}
-        />
+            <div className = "name"> {name} </div>
+            <div className = "details"> {details} </div>
+            <button onClick={() => props.setFinished()} > {finished ? "uncheck" : "check"} </button>
+            <PrevDeleteNext 
+                key = "pdn"
+                Add = {(lr) => props.Add(lr)}
+                Delete = {() => props.Remove()}
+            />
         </div>
     }
     else{
@@ -337,20 +381,20 @@ function PrevDeleteNext(props){
     return(
         <div className = "prev_delete_next">
         
-        <button
-        style = {{width : '33%'}}
-        className = "add_before"
-        onClick={() => props.Add(0)} > add before </button>
+            <button
+            style = {{width : '33%'}}
+            className = "add_before"
+            onClick={() => props.Add(0)} > add before </button>
 
-        <button
-        style = {{width : '33%'}}
-        className = "delete"
-        onClick={() => props.Delete()} > delete </button>
+            <button
+            style = {{width : '33%'}}
+            className = "delete"
+            onClick={() => props.Delete()} > delete </button>
 
-        <button
-        style = {{width : '33%'}}
-        className = "add_before"
-        onClick={() => props.Add(1)} > add after </button>
+            <button
+            style = {{width : '33%'}}
+            className = "add_before"
+            onClick={() => props.Add(1)} > add after </button>
 
         </div>
         )

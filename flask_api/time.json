@@ -1,53 +1,23 @@
 {
-    "new Project": [
+    "Project": [
         {
-            "date": "N/A",
-            "desc": "placeholder 0",
+            "dets": "www.youtube.com",
             "finished": true,
-            "name": "newProjCkpt",
+            "name": "Video #4",
+            "num": -2
+        },
+        {
+            "dets": "www.youtube.com",
+            "finished": true,
+            "name": "Video #5",
+            "num": -1
+        },
+        {
+            "dets": "youtube.com",
+            "finished": false,
+            "name": "Video #6",
             "num": 0
-        },
-        {
-            "date": "N/A",
-            "desc": "placeholder 1",
-            "finished": true,
-            "name": "newProjCkpt",
-            "num": 1
-        },
-        {
-            "date": "N/A",
-            "desc": "placeholder 2",
-            "finished": false,
-            "name": "newProjCkpt",
-            "num": 2
-        },
-        {
-            "date": "N/A",
-            "desc": "placeholder 0",
-            "finished": false,
-            "name": "newProjCkpt",
-            "num": 3
-        },
-        {
-            "date": "N/A",
-            "desc": "placeholder 4",
-            "finished": false,
-            "name": "newProjCkpt",
-            "num": 4
-        },
-        {
-            "date": "N/A",
-            "desc": "placeholder 5",
-            "finished": false,
-            "name": "newProjCkpt",
-            "num": 5
-        },
-        {
-            "date": "N/A",
-            "desc": "placeholder",
-            "finished": false,
-            "name": "newProjCkpt",
-            "num": 6
         }
-    ]
+    ],
+    "asdfasd": []
 }
