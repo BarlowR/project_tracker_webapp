@@ -2,11 +2,11 @@
 .shadow{
     position: fixed; 
     top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(10,10,10,.3);
+    background-color: rgba(10,10,10,.5);
 }
-
 .popup_body{
     position: fixed;
     top: 30%;

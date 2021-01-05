@@ -1,6 +1,7 @@
 import './projects.css';
 import {ProjectAdd, CheckpointAdd } from "./popup.js";
 import React from 'react';
+import Linkify from 'react-linkify';
 
 
 
@@ -230,7 +231,7 @@ export default class Projects extends React.Component {
                 <button 
                 className = "add_project"
                 onClick = {() => this.setState({project_popup: true})}>
-                    Add Project
+                    +
                 </button>
             )
         }
@@ -256,7 +257,10 @@ export default class Projects extends React.Component {
         }
 
         //return the list of elements to be rendered
-        return (project_elements)
+        return (
+            <div id = "projects_body">
+                {project_elements}
+            </div>)
     }
 }
 
@@ -333,11 +337,15 @@ class Project extends React.Component {
         //render the project title, the list of checkpoints and a remove project button
         return (
             <div className = "project_element">
-                <div className = "project_title"> {this.props.project_name} </div>
+                <div className = "project_title"> 
+                    {this.props.project_name} 
+                    <RemoveProj 
+                    Remove = {() => this.props.alterProject(this.props.project_name, "delete")}
+                    />
+                </div>
+
                 <div className = "checkpoint_timeline"> {checkpoint_elements} </div>
-                <RemoveProj 
-                Remove = {() => this.props.alterProject(this.props.project_name, "delete")}
-                />
+                
             </div>
         )
     }
@@ -378,7 +386,7 @@ function Checkpoint(props){
         display =
         <div className = {"checkpoint active " +finished_class} onClick={() => props.setActive()}>
             <div className = "name"> {name} </div>
-            <div className = "details"> {details} </div>
+            <div className = "details"> <Linkify> {details} </Linkify> </div>
             <button onClick={() => props.setFinished()} > {finished ? "uncheck" : "check"} </button>
             <PrevDeleteNext 
                 key = "pdn"
@@ -395,7 +403,7 @@ function Checkpoint(props){
         </div>
     }
     return(
-        <div style = {{width : (100/props.checkpoint_num + '%'), float: "left"}}>
+        <div className = {"checkpoint_container " + ((props.active === num) ? "active" : "")} >
         {display}
         </div>
         )
@@ -409,7 +417,7 @@ function RemoveProj(props){
     return(
         <button 
         className = "remove_project"
-        onClick={() => props.Remove()} > Remove Project </button>
+        onClick={() => props.Remove()} > - </button>
         )
 }
 

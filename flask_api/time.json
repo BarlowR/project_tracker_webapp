@@ -1,17 +1,70 @@
 {
-    "Project 2": [
+    "Webapp Development": [
+        {
+            "dets": "justify & align center",
+            "finished": true,
+            "name": "Change float to flex",
+            "num": -17
+        },
+        {
+            "dets": "Checkpoint horizontal scrolling?",
+            "finished": true,
+            "name": "Max Checkpoint # for Horizontal Screen",
+            "num": -14
+        },
+        {
+            "dets": "Links now work in details! wow.com!",
+            "finished": true,
+            "name": "Link Handling",
+            "num": -3
+        },
+        {
+            "dets": "Preferably on the bottom right of the screen",
+            "finished": false,
+            "name": "Add Save Button",
+            "num": -2
+        },
+        {
+            "dets": "Fix the rest of the buttons on the app",
+            "finished": false,
+            "name": "Check/Add/Delete Buttons",
+            "num": -1
+        },
         {
             "dets": "",
             "finished": false,
-            "name": "Checkpoint Title",
+            "name": "fix this: AVeryLongWordDoesn'tOverflowProperly",
             "num": 0
         },
         {
-            "dets": "aslkdjsad",
-            "finished": true,
-            "name": "Checkpoint Title 2",
+            "dets": "Add section for project details",
+            "finished": false,
+            "name": "Project Details",
             "num": 1
+        },
+        {
+            "dets": "",
+            "finished": false,
+            "name": "SVG integration for graphical timeline",
+            "num": 2
+        },
+        {
+            "dets": "Display titles above, dates below?",
+            "finished": false,
+            "name": "Add optional date parameter",
+            "num": 5
+        },
+        {
+            "dets": "Not sure yet how best to implement",
+            "finished": false,
+            "name": "Archive for Completed Projects",
+            "num": 6
+        },
+        {
+            "dets": "Infinite scrolling vertical checkpoints, horizontal scrolling to switch between projects",
+            "finished": false,
+            "name": "Vertical Screen UX",
+            "num": 7
         }
-    ],
-    "Project Name": []
+    ]
 }
